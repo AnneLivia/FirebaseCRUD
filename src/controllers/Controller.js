@@ -24,7 +24,7 @@ class Controller {
             const user = await this.firestore.collection(this.model).doc(id).get();
             if(user.exists)
                 return res.json({id: user.id, ...user.data()});
-            res.status(404).json({messaage: "User not found"});
+            res.status(404).json({messaage: "Record not found"});
         } catch (err) {
             console.log(err);
             res.status(400).json({message: "Unexpected error"});
@@ -49,7 +49,7 @@ class Controller {
             res.json({message: "Updated successfully"});
         } catch (err) {
             if(err.details.includes("No document to update")) {
-                return res.status(404).json({messaage: "User not found"});
+                return res.status(404).json({messaage: "Record not found"});
             }
             res.status(400).json({message: "Unexpected error"});
         }
@@ -60,7 +60,7 @@ class Controller {
         try {
             const user = await this.firestore.collection(this.model).doc(id);
             if(!(await user.get()).exists) 
-                return res.status(404).json({messaage: "User not found"});
+                return res.status(404).json({messaage: "Record not found"});
                 
             await this.firestore.collection(this.model).doc(id).delete();
             res.json({message: "Removed successfully"});
